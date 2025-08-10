@@ -1,0 +1,32 @@
+{
+  "name": "Eskalate Food Backend",
+  "description": "FastAPI backend for food management system",
+  "keywords": ["fastapi", "python", "food", "api"],
+  "website": "https://github.com/Terbeche/eskalate-backend",
+  "repository": "https://github.com/Terbeche/eskalate-backend",
+  "success_url": "/docs",
+  "env": {
+    "DATABASE_URL": {
+      "description": "PostgreSQL database URL",
+      "required": true
+    },
+    "SECRET_KEY": {
+      "description": "Secret key for the application",
+      "generator": "secret"
+    }
+  },
+  "formation": {
+    "web": {
+      "quantity": 1,
+      "size": "eco"
+    }
+  },
+  "addons": [
+    "heroku-postgresql:essential-0"
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/python"
+    }
+  ]
+}
