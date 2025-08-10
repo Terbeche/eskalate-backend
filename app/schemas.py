@@ -1,12 +1,7 @@
 from pydantic import BaseModel
 from typing import Optional, List
-from enum import Enum
 
-class StatusEnum(str, Enum):
-    open = "open"
-    closed = "closed"
-
-# Restaurant Schemas
+# Restaurant schemas
 class RestaurantBase(BaseModel):
     name: str
     description: Optional[str] = None
@@ -16,7 +11,7 @@ class RestaurantBase(BaseModel):
     cuisine: Optional[str] = None
     delivery_time: Optional[str] = None
     delivery_fee: Optional[float] = 0.0
-    status: StatusEnum = StatusEnum.open
+    status: Optional[str] = "open"
 
 class RestaurantCreate(RestaurantBase):
     pass
@@ -30,22 +25,22 @@ class RestaurantUpdate(BaseModel):
     cuisine: Optional[str] = None
     delivery_time: Optional[str] = None
     delivery_fee: Optional[float] = None
-    status: Optional[StatusEnum] = None
+    status: Optional[str] = None
 
-class Restaurant(RestaurantBase):
+class RestaurantOut(RestaurantBase):
     id: int
     
     class Config:
         from_attributes = True
 
-# Meal Schemas
+# Meal schemas
 class MealBase(BaseModel):
     name: str
     description: Optional[str] = None
     price: float
     image: Optional[str] = None
     category: Optional[str] = None
-    status: StatusEnum = StatusEnum.open
+    status: Optional[str] = "open"
     discount: Optional[str] = None
     rating: Optional[float] = 0.0
     restaurant_id: int
@@ -59,18 +54,14 @@ class MealUpdate(BaseModel):
     price: Optional[float] = None
     image: Optional[str] = None
     category: Optional[str] = None
-    status: Optional[StatusEnum] = None
+    status: Optional[str] = None
     discount: Optional[str] = None
     rating: Optional[float] = None
     restaurant_id: Optional[int] = None
 
-class Meal(MealBase):
+class MealOut(MealBase):
     id: int
-    restaurant: Optional[Restaurant] = None
+    restaurant: Optional[RestaurantOut] = None
     
     class Config:
         from_attributes = True
-
-# Restaurant with meals
-class RestaurantWithMeals(Restaurant):
-    meals: List[Meal] = []
